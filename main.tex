@@ -1,0 +1,220 @@
+%-------------------------
+% Resume in Latex
+% Author : Jake Gutierrez
+% Based off of: https://github.com/sb2nov/resume
+% License : MIT
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\input{glyphtounicode}
+
+
+%----------FONT OPTIONS----------
+% sans-serif
+% \usepackage[sfdefault]{FiraSans}
+% \usepackage[sfdefault]{roboto}
+% \usepackage[sfdefault]{noto-sans}
+% \usepackage[default]{sourcesanspro}
+
+% serif
+% \usepackage{CormorantGaramond}
+% \usepackage{charter}
+
+
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+% Ensure that generate pdf is machine readable/ATS parsable
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubSubheading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textit{\small#1} & \textit{\small #2} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+%----------HEADING----------
+% \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+%   \textbf{\href{http://sourabhbajaj.com/}{\Large Sourabh Bajaj}} & Email : \href{mailto:sourabh@sourabhbajaj.com}{sourabh@sourabhbajaj.com}\\
+%   \href{http://sourabhbajaj.com/}{http://www.sourabhbajaj.com} & Mobile : +1-123-456-7890 \\
+% \end{tabular*}
+
+\begin{center}
+    \textbf{\Huge \scshape Yatharth} \\ \vspace{1pt}
+    \small +91 930-550-1354 $|$ \href{mailto:yatharth2906@gmail.com}{\underline{Mail}} $|$ 
+    \href{https://linkedin.com/in/yatharth2906}{\underline{Linkedin}} $|$
+    \href{https://github.com/yatharth-2906}{\underline{GitHub}} $|$
+    \href{https://yatharth2906.vercel.app/}{\underline{Portfolio}}
+\end{center}
+
+%-----------EXPERIENCE-----------
+\section{Experience}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {Software Developer Intern}{May 2024 - August 2024}
+      {KFCL, Jaypee Group}{Remote}
+        \resumeItemListStart
+            \resumeItem{Developed responsive, user-friendly and dynamic frontend for the CropHawk project using \textbf{React.js}.}
+            \resumeItem{Implemented the JWT authentication \& authorization in \textbf{Express.js}, enhancing security and user access control.}
+            \resumeItem{Built a Public API using \textbf{FastAPI} for seamless integration of machine learning models into the web application.}
+          \resumeItemListEnd
+
+
+    \resumeSubheading
+      {Software Development Intern}{March 2024 - April 2024}
+      {Techrupt Innovations}{Remote}
+      \resumeItemListStart
+            \resumeItem {Built an \textbf{order tracking} web portal using the \textbf{React.js} and fixed various frontend bugs across other pages.}
+            \resumeItem{Implemented the \textbf{multi user authentication} in the \textbf{Express.js} backend, ensuring secure user access control }
+            \resumeItem{Enabled manufacturers to edit order details including tracking numbers, ensuring seamless synchronization with \textbf{WooCommerce admin panel}.}
+        
+      \resumeItemListEnd
+      
+% -----------Multiple Positions Heading-----------
+%    \resumeSubSubheading
+%     {Software Engineer I}{Oct 2014 - Sep 2016}
+%     \resumeItemListStart
+%        \resumeItem{Apache Beam}
+%          {Apache Beam is a unified model for defining both batch and streaming data-parallel processing pipelines}
+%     \resumeItemListEnd
+%    \resumeSubHeadingListEnd
+%-------------------------------------------
+
+  \resumeSubHeadingListEnd
+  
+
+%-----------PROJECTS-----------
+\section{Projects}
+    \resumeSubHeadingListStart
+      \resumeProjectHeading
+          {\href{https://github.com/yatharth-2906/crophawk}{\textbf{CropHawk}} $|$ \emph{React.js, Express.js, MongoDB, FastAPI}}{\href{https://github.com/yatharth-2906/crophawk}{\textbf{GitHub Repo}}}
+          \resumeItemListStart
+            \resumeItem{Developed responsive, user-friendly and dynamic frontend for the CropHawk project using \textbf{React.js}.}
+            \resumeItem{Implemented the JWT authentication \& authorization in \textbf{Express.js} enhancing security and user access control.}
+            \resumeItem{Built a Public API using \textbf{FastAPI} for seamless integration of machine learning models into the web application.}
+          \resumeItemListEnd
+          
+      \resumeProjectHeading
+          {\href{https://github.com/yatharth-2906/linknest}{\textbf{LinkNest}} $|$ \emph{React.js, Express.js, MongoDB ( MERN )}}{\href{https://github.com/yatharth-2906/linknest}{\textbf{GitHub Repo}}}
+          \resumeItemListStart
+            \resumeItem{Developed responsive, user-firendly and dynamic frontend for the LinkNest project using \textbf{React.js}.}
+            \resumeItem{Built a Profile page with image upload/removal feature, using \textbf{Express.js} for file handling and API integration.}
+            \resumeItem{Implemented a \textbf{Nest Sharing feature} that generates unique URL, allowing users to share a single link to showcase all their important content and enhance their online presence.}
+            \resumeItem{Optimized the \textbf{REST API} endpoints to enhance the efficiency of \textbf{CRUD Operations} and deployed the application on \textbf{Vercel} for seamless access.}
+          \resumeItemListEnd
+    \resumeSubHeadingListEnd
+
+
+
+%
+%-----------PROGRAMMING SKILLS-----------
+\section{Technical Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Languages}{: C/C++, JavaScript, HTML, CSS, Python} \\
+     \textbf{Frameworks}{: React.js, Node.js, Express.js} \\
+     \textbf{Databases} {: SQL, MongoDB, Firebase} \\
+     \textbf{Tools}: Postman, Git/GitHub, Vercel }}
+ \end{itemize}
+
+
+%-----------EDUCATION-----------
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Jaypee University Of Information Technology}{Solan, India}
+      {B.Tech in Computer Science}{October \textbf{2021} - \textbf{Present}}
+      \resumeItem{Current CGPA: \textbf{8.6}/10}
+  \resumeSubHeadingListEnd
+
+%-----------POR-----------
+\section{Leadership and Volunteering}
+
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Secretary}{July 2023 - August 2024}
+      {ACM JUIT}{Solan, India}
+      \resumeItemListStart
+        \resumeItem {Organized \textbf{Smart India Hackathon (SIH)} internal round and mentored the development of a website for establishing digital presence of the event.}
+        \resumeItem{Actively contributed to the maintenance of the \textbf{ACM JUIT website}, ensuring timely updates, accurate content and optimal functionality.}
+        \resumeItem{Provided technical support and guidance to ACM members by organizing seminars, technical workshops, and coding challenges, fostering hands-on learning and enhancing members technical skills.}
+        \resumeItem{Mentored junior students in \textbf{Web Development} and \textbf{Data Structures}, focusing on building their foundational knowledge and problem-solving abilities through hands-on practice.}
+
+      \resumeItemListEnd
+    \resumeSubHeadingListEnd
+
+%-------------------------------------------
+\end{document}
