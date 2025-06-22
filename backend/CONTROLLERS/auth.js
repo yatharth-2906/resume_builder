@@ -1,11 +1,12 @@
 require('dotenv').config();
 const User = require('../MODELS/user');
+const { copyLatexTemplates } = require('../SERVICES/cloud');
 const { generateToken, verifyToken } = require('../SERVICES/auth');
 const { hashPassword, verifyPassword } = require('../SERVICES/encryption');
 
 async function verifyUserLogin(req, res) {
-    try{
-        const {token} = req.body;
+    try {
+        const { token } = req.body;
 
         // Check if token is provided
         if (!token) {
@@ -28,7 +29,7 @@ async function verifyUserLogin(req, res) {
 
 async function handleUserLogin(req, res) {
     try {
-        const {email, password} = req.body;
+        const { email, password } = req.body;
 
         // Check if all required fields are provided
         if (!email || !password) {
@@ -36,7 +37,7 @@ async function handleUserLogin(req, res) {
         }
 
         // Check if user exists
-        const user = await User.findOne({user_email: email});
+        const user = await User.findOne({ user_email: email });
         if (!user) {
             return res.status(404).json({ "status": "error", "msg": `User with ${email} does not exist.` });
         }
@@ -73,17 +74,24 @@ async function handleUserSignup(req, res) {
             return res.status(401).json({ "status": "error", "msg": `User with ${email} already exists.` });
         }
 
+        // Copy LaTeX templates to cloud storage
+        const copyResult = await copyLatexTemplates();
+        if (!copyResult.success) {
+            return res.status(500).json({ error: copyResult.error });
+        }
+
         // Hash and create a new user 
         const { salt, hash } = hashPassword(password);
         await User.create({
             user_name: name,
             user_email: email,
             salt: salt,
-            password_hash: hash
+            password_hash: hash,
+            template_folder: copyResult.repoUrl,
         });
-        
+
         // If everything is fine, return success response
-        return res.status(200).json({ "status": "success", "msg": 'User created successfully.' });
+        return res.status(200).json({"status": "success", "msg": 'User created successfully.'});
 
     } catch (error) {
         console.error('Error during user signup:', error);
