@@ -20,7 +20,7 @@ async function verifyUserLogin(req, res) {
         }
 
         // If everything is fine, return success response
-        return res.status(200).json({ "status": "success", "msg": 'User login verified successfully.' });
+        return res.status(200).json({ "status": "success", "msg": 'User login verified successfully.', "user": decoded });
     } catch (error) {
         console.error('Error during user login verification:', error);
         return res.status(500).json({ "status": "error", "msg": 'Internal Server Error.' });
@@ -49,10 +49,11 @@ async function handleUserLogin(req, res) {
         }
 
         // Generate JWT token
-        const token = generateToken({ user_id: user._id, user_email: user.user_email });
+        const userPayload = { user_id: user._id, user_email: user.user_email, template_folder: user.template_folder };
+        const token = generateToken(userPayload);
 
         // If everything is fine, return success response
-        return res.status(200).json({ "status": "success", "msg": 'User logged in successfully.', "token": token, "user": { name: user.user_name, email: user.user_email } });
+        return res.status(200).json({ "status": "success", "msg": 'User logged in successfully.', "token": token, "user": userPayload });
     } catch (error) {
         console.error('Error during user login:', error);
         return res.status(500).json({ "status": "error", "msg": 'Internal Server Error.' });

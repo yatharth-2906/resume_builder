@@ -6,6 +6,7 @@ const express = require('express');
 const connectToDatabase = require('./connect');
 const homeRouter = require('./ROUTES/home');
 const authRouter = require('./ROUTES/auth');
+const compileRouter = require('./ROUTES/compile');
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routers
 app.use('/', homeRouter);
 app.use('/auth', authRouter);
+app.use('/compile', compileRouter);
 
 // Starting the server and DB Connection 
 connectToDatabase();
