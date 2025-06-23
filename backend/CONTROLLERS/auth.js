@@ -87,7 +87,7 @@ async function handleUserSignup(req, res) {
             user_email: email,
             salt: salt,
             password_hash: hash,
-            template_folder: copyResult.repoUrl,
+            template_folder: copyResult.folderName,
         });
 
         // If everything is fine, return success response
