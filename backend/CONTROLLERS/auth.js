@@ -10,20 +10,20 @@ async function verifyUserLogin(req, res) {
 
         // Check if token is provided
         if (!token) {
-            return res.status(400).json({ "status": "error", "msg": 'Missing Token.' });
+            return res.status(400).json({ "status": "error", "message": 'Missing Token.' });
         }
 
         // Verify the token
         const decoded = verifyToken(token);
         if (!decoded) {
-            return res.status(401).json({ "status": "error", "msg": 'Invalid Token.' });
+            return res.status(401).json({ "status": "error", "message": 'Invalid Token.' });
         }
 
         // If everything is fine, return success response
-        return res.status(200).json({ "status": "success", "msg": 'User login verified successfully.', "user": decoded });
+        return res.status(200).json({ "status": "success", "message": 'User login verified successfully.', "user": decoded });
     } catch (error) {
         console.error('Error during user login verification:', error);
-        return res.status(500).json({ "status": "error", "msg": 'Internal Server Error.' });
+        return res.status(500).json({ "status": "error", "message": 'Internal Server Error.' });
     }
 }
 
@@ -33,19 +33,19 @@ async function handleUserLogin(req, res) {
 
         // Check if all required fields are provided
         if (!email || !password) {
-            return res.status(400).json({ "status": "error", "msg": 'Missing Details.' });
+            return res.status(400).json({ "status": "error", "message": 'Missing Details.' });
         }
 
         // Check if user exists
         const user = await User.findOne({ user_email: email });
         if (!user) {
-            return res.status(404).json({ "status": "error", "msg": `User with ${email} does not exist.` });
+            return res.status(404).json({ "status": "error", "message": `User with ${email} does not exist.` });
         }
 
         // Verify password
         const isValid = verifyPassword(password, user.salt, user.password_hash);
         if (!isValid) {
-            return res.status(401).json({ "status": "error", "msg": 'Invalid Password.' });
+            return res.status(401).json({ "status": "error", "message": 'Invalid Password.' });
         }
 
         // Generate JWT token
@@ -53,10 +53,10 @@ async function handleUserLogin(req, res) {
         const token = generateToken(userPayload);
 
         // If everything is fine, return success response
-        return res.status(200).json({ "status": "success", "msg": 'User logged in successfully.', "token": token, "user": userPayload });
+        return res.status(200).json({ "status": "success", "message": 'User logged in successfully.', "token": token, "user": userPayload });
     } catch (error) {
         console.error('Error during user login:', error);
-        return res.status(500).json({ "status": "error", "msg": 'Internal Server Error.' });
+        return res.status(500).json({ "status": "error", "message": 'Internal Server Error.' });
     }
 }
 
@@ -66,13 +66,13 @@ async function handleUserSignup(req, res) {
 
         // Check if all required fields are provided
         if (!name || !email || !password) {
-            return res.status(400).json({ "status": "error", "msg": 'Missing Details.' });
+            return res.status(400).json({ "status": "error", "message": 'Missing Details.' });
         }
 
         // Check if user already exists
         const existing_user = await User.findOne({ user_email: email });
         if (existing_user) {
-            return res.status(401).json({ "status": "error", "msg": `User with ${email} already exists.` });
+            return res.status(401).json({ "status": "error", "message": `User with ${email} already exists.` });
         }
 
         // Copy LaTeX templates to cloud storage
@@ -92,11 +92,11 @@ async function handleUserSignup(req, res) {
         });
 
         // If everything is fine, return success response
-        return res.status(200).json({"status": "success", "msg": 'User created successfully.'});
+        return res.status(200).json({"status": "success", "message": 'User created successfully.'});
 
     } catch (error) {
         console.error('Error during user signup:', error);
-        return res.status(500).json({ "status": "error", "msg": 'Internal Server Error.' });
+        return res.status(500).json({ "status": "error", "message": 'Internal Server Error.' });
     }
 }
 

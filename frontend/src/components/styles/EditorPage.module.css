@@ -1,0 +1,136 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background-color: var(--topbar-bg, #2c3e50);
+  color: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+
+.fileInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.folderName {
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+
+.status {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+.button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.compileButton {
+  background-color: var(--compile-btn-bg, #3498db);
+  color: white;
+}
+
+.compileButton:hover:not(:disabled) {
+  background-color: var(--compile-btn-hover, #2980b9);
+}
+
+.compileButton:disabled {
+  background-color: var(--compile-btn-disabled, #95a5a6);
+  cursor: not-allowed;
+}
+
+.shareButton {
+  background-color: var(--share-btn-bg, #27ae60);
+  color: white;
+}
+
+.shareButton:hover {
+  background-color: var(--share-btn-hover, #219653);
+}
+
+.editorPreview {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.editorPane, .previewPane {
+  flex: 1;
+  height: 100%;
+}
+
+.editor {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  border: none;
+  resize: none;
+  background-color: var(--editor-bg, #f8f9fa);
+  line-height: 1.5;
+  tab-size: 2;
+}
+
+.editor:focus {
+  outline: none;
+  background-color: var(--editor-focus-bg, #fff);
+}
+
+.previewPane {
+  border-left: 1px solid var(--preview-border, #ddd);
+  background-color: var(--preview-bg, #f1f2f6);
+}
+
+.pdfPreview {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: var(--placeholder-text, #7f8c8d);
+  text-align: center;
+}
+
+.loader {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.message {
+  max-width: 300px;
+}
+
+.message p {
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.message small {
+  opacity: 0.7;
+}

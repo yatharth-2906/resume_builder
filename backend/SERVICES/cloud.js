@@ -1,8 +1,10 @@
-const crypto = require("crypto");
+require("dotenv").config();
+
+const os = require("os");
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 const cloudinary = require("cloudinary").v2;
-require("dotenv").config();
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -10,7 +12,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-async function copyLatexTemplates(req, res) {
+async function copyLatexTemplates() {
   const uniqueFolderName = crypto.randomBytes(12).toString("hex");
   const localTemplatesPath = path.join(__dirname, "../Templates");
 
@@ -35,6 +37,7 @@ async function copyLatexTemplates(req, res) {
         use_filename: true,
         unique_filename: false,
         overwrite: true,
+        invalidate: true,
       });
 
       uploadResults.push(result.secure_url);
@@ -55,6 +58,50 @@ async function copyLatexTemplates(req, res) {
   }
 }
 
+async function updateLatexFile(fileUrl, latexContent) {
+  const url = new URL(fileUrl);
+  const pathAfterUpload = url.pathname.split("/upload/")[1];
+  if (!pathAfterUpload) throw new Error("Invalid Cloudinary URL");
+
+  const publicId = pathAfterUpload.replace(/\.\w+$/, "");
+  const fileName = path.basename(publicId) + ".tex";
+  const tmpFilePath = path.join(os.tmpdir(), fileName);
+  try {
+    // 1. Write LaTeX to a temporary local file
+    fs.writeFileSync(tmpFilePath, latexContent.trim(), "utf8");
+
+    // 2. Delete the existing file from Cloudinary
+    await cloudinary.uploader.destroy(publicId, {
+      resource_type: "raw",
+    });
+
+    // 3. Upload new file with same public ID
+    const result = await cloudinary.uploader.upload(tmpFilePath, {
+      public_id: publicId,
+      resource_type: "raw",
+      use_filename: true,
+      unique_filename: false,
+      overwrite: true,
+      invalidate: true,
+    });
+
+    return {
+      "success": true,
+      "url": result.secure_url,
+      "message": "File modified successfully",
+    };
+  } catch (err) {
+    console.error("Cloudinary update (delete-reupload) error:", err);
+    return {
+      "success": false,
+      "message": err.message,
+    };
+  } finally {
+    fs.unlinkSync(tmpFilePath);
+  }
+}
+
 module.exports = {
   copyLatexTemplates,
+  updateLatexFile,
 };
