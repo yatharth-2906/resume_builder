@@ -7,7 +7,7 @@ async function handleCompilation(req, res) {
     try {
         const latexCode = req.body;
         const token = req.headers["token"]?.split(' ')[1];
-        const templateFileName = req.headers['templatefilename'] || req.headers['templateFileName'];
+        const templateFileName = req.headers['templatefilename'];
 
         if (!token) {
             return res.status(401).json({ error: 'Missing Token' });

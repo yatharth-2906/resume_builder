@@ -59,6 +59,15 @@
   cursor: not-allowed;
 }
 
+.downloadButton {
+  background-color: var(--share-btn-bg, #e74c3c);
+  color: white;
+}
+
+.downloadButton:hover {
+  background-color: var(--share-btn-hover, #c0392b);
+}
+
 .shareButton {
   background-color: var(--share-btn-bg, #27ae60);
   color: white;

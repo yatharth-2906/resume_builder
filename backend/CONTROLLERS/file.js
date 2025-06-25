@@ -2,7 +2,8 @@ const { verifyToken } = require('../SERVICES/auth');
 
 async function handleGetFile(req, res) {
     try {
-        const { token, fileName } = req.body;
+        const { fileName } = req.body;
+        const token = req.headers["token"]?.split(' ')[1];
 
         // Check for missing values 
         if (!token || !fileName) {
