@@ -1,23 +1,14 @@
-const { verifyToken } = require('../SERVICES/auth');
-
 async function handleGetFile(req, res) {
     try {
-        const { fileName } = req.body;
-        const token = req.headers["token"]?.split(' ')[1];
+        const { fileName, template_folder } = req.body;
 
         // Check for missing values 
-        if (!token || !fileName) {
-            return res.status(400).json({ "status": "error", "message": 'Missing token or fileName' });
-        }
-
-        // Extract user details from token
-        const userDetails = verifyToken(token);
-        if (!userDetails) {
-            return res.status(401).json({ "status": "error", "message": 'Invalid token' });
+        if (!template_folder || !fileName) {
+            return res.status(400).json({ "status": "error", "message": 'Missing template_folder or fileName' });
         }
 
         // Fetch the file from Cloud Storage 
-        const cloudinaryUrl = `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/raw/upload/resume-templates/${userDetails.template_folder}/${fileName}`;
+        const cloudinaryUrl = `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/raw/upload/resume-templates/${template_folder}/${fileName}`;
         const response = await fetch(cloudinaryUrl);
 
         if (!response.ok) {

@@ -1,32 +1,61 @@
-import { useState } from 'react';
+import Cookies from 'js-cookie';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './styles/LoginPage.module.css';
 
 const LoginPage = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
+    const [loading, setLoading] = useState(false);
+    const user = JSON.parse(localStorage.getItem("user")) || null;
+
+    useEffect(() => {
+        function checkLoginStatus() {
+            if (user)
+                navigate('/');
+        }
+
+        checkLoginStatus();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
         setLoading(true);
+        
+        const email = String(document.getElementById('user_email').value);
+        const password = String(document.getElementById('user_password').value);
+        if (!email || !password) {
+            throw new Error('Please fill in all fields');
+        }
 
         try {
-            // Replace with your actual authentication logic
-            await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+            const response = await fetch('http://localhost:8000/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+                credentials: 'include'
+            });
 
-            // Mock authentication - in real app, verify credentials with backend
-            if (email === 'user@example.com' && password === 'password') {
-                localStorage.setItem('isAuthenticated', 'true');
-                navigate('/editor'); // Redirect to editor after login
-            } else {
-                throw new Error('Invalid email or password');
+            if (!response.ok) {
+                console.log("Login failed.");
+                return;
             }
-        } catch (err) {
-            setError(err.message);
+
+            const data = await response.json();
+            if (data.status == 'error') {
+                Cookies.remove('token');
+                localStorage.removeItem("user");
+                console.log("Login failed.");
+                return;
+            }
+
+            localStorage.setItem("user", JSON.stringify(data.user));
+            Cookies.set("token", data.token, { expires: 14 });
+            navigate('/');
+        } catch (error) {
+            console.log(error);
         } finally {
             setLoading(false);
         }
@@ -40,16 +69,12 @@ const LoginPage = () => {
                     <p>Sign in to access your resume templates</p>
                 </div>
 
-                {error && <div className={styles.errorMessage}>{error}</div>}
-
                 <form onSubmit={handleSubmit} className={styles.loginForm}>
                     <div className={styles.formGroup}>
-                        <label htmlFor="email">Email</label>
+                        <label htmlFor="user_email">Email</label>
                         <input
-                            type="email"
-                            id="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            type="user_email"
+                            id="user_email"
                             required
                             placeholder="your@email.com"
                             autoComplete="email"
@@ -58,14 +83,13 @@ const LoginPage = () => {
                     </div>
 
                     <div className={styles.formGroup}>
-                        <label htmlFor="password">Password</label>
+                        <label htmlFor="user_password">Password</label>
                         <input
-                            type="password"
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            type="user_password"
+                            id="user_password"
                             required
                             placeholder="••••••••"
+                            className={styles.inputField}
                         />
                     </div>
 

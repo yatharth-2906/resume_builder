@@ -1,21 +1,47 @@
 import Scroll from './Scroll';
-import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 import styles from './styles/Homepage.module.css';
 
 const Homepage = () => {
+    const navigate = useNavigate();
+    const user = JSON.parse(localStorage.getItem("user")) || null;
+
+    const ScrollTo = (id) => {
+        const element = document.getElementById(id);
+        element?.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    const handleSignOut = () => {
+        Cookies.remove('token');
+        localStorage.removeItem("user");
+        window.location.reload();
+    }
+
     return (
         <div className={styles.container}>
             {/* Header Section */}
             <header className={styles.header}>
                 <div className={styles.logo}>
                     <h1>ResumeCraft Pro</h1>
-                    <p>Build Professional Resumes with LaTeX Precision</p>
+                    <p>
+                        {user ? (
+                            <>Welcome, <strong>{user.user_name}</strong>! Build Professional Resumes with LaTeX Precision</>
+                        ) : (
+                            <>Build Professional Resumes with LaTeX Precision</>
+                        )}
+                    </p>
+
                 </div>
                 <nav className={styles.nav}>
                     <Scroll id="features">Features</Scroll>
                     <Scroll id="templates">Templates</Scroll>
                     <Scroll id="how-it-works">How It Works</Scroll>
-                    <button className={styles.ctaButton} onClick={()=> window.location.href='/login'}>Get Started</button>
+                    {user ?
+                        <button className={styles.signOutButton}
+                            onClick={handleSignOut}>Sign Out</button> :
+                        <button className={styles.ctaButton}
+                            onClick={() => navigate('/login')}>Login</button>}
                 </nav>
             </header>
 
@@ -24,16 +50,17 @@ const Homepage = () => {
                 <div className={styles.heroContent}>
                     <h2>Craft Your Perfect Resume with LaTeX Elegance</h2>
                     <p>
-                        Create ATS-friendly, professionally typeset resumes with our easy-to-use
-                        LaTeX template builder. No technical skills required!
+                        Build clean, ATS-friendly resumes using our powerful yet easy-to-use LaTeX template builder.
+                        Designed for professionals, students, and job seekers alike, our tool ensures your resume
+                        looks polished and well formatted.
                     </p>
                     <div className={styles.heroButtons}>
-                        <button className={styles.primaryButton}>Try It Now</button>
-                        <button className={styles.secondaryButton}>View Templates</button>
+                        {user ? <></> : <button className={styles.primaryButton} onClick={() => navigate('/signup')}>Try It Now</button>}
+                        <button className={styles.secondaryButton} onClick={() => ScrollTo('templates')}>View Templates</button>
                     </div>
                 </div>
                 <div className={styles.heroImage}>
-                    <img src="/resume-preview.png" alt="Resume Preview" />
+                    <img src="/resume_template1.png" alt="Resume Preview" />
                 </div>
             </section>
 
@@ -43,26 +70,23 @@ const Homepage = () => {
                 <div className={styles.featuresGrid}>
                     <div className={styles.featureCard}>
                         <div className={styles.featureIcon}>📄</div>
-                        <h3>ATS-Optimized Templates</h3>
+                        <h3>ATS Optimized Templates</h3>
                         <p>
-                            Our LaTeX templates are designed to pass through Applicant Tracking
-                            Systems while maintaining beautiful typography and layout.
+                            Our resume templates are optimized to achieve high scores with Applicant Tracking Systems, ensuring both compatibility and a polished, professional appearance.
                         </p>
                     </div>
                     <div className={styles.featureCard}>
                         <div className={styles.featureIcon}>🔗</div>
                         <h3>Sharable Resume Links</h3>
                         <p>
-                            Generate a unique URL for your resume that you can share with
-                            recruiters or include in your LinkedIn profile.
+                            Generate a shareable URL for your resume that can be easily sent to recruiters, added to your LinkedIn profile or included in job applications to showcase your skills.
                         </p>
                     </div>
                     <div className={styles.featureCard}>
                         <div className={styles.featureIcon}>🎨</div>
                         <h3>Customizable Designs</h3>
                         <p>
-                            Easily switch between multiple color schemes and font combinations
-                            without touching LaTeX code.
+                            Choose from a variety of professionally designed resume templates tailored for different roles and industries. You can easily select a template that fits your profile.
                         </p>
                     </div>
                 </div>
@@ -75,23 +99,23 @@ const Homepage = () => {
                     Choose from our collection of professionally designed templates
                 </p>
                 <div className={styles.templateGallery}>
-                    <div className={styles.templateCard}>
-                        <img src="/template-modern.png" alt="Modern Template" />
+                    <div className={styles.templateCard} onClick={() => navigate('/editor?fileName=template1.tex')} style={{ cursor: 'pointer' }}>
+                        <img src="/resume_template1.png" alt="Modern Template" />
                         <h3>Modern</h3>
                         <p>Clean lines and contemporary design</p>
                     </div>
-                    <div className={styles.templateCard}>
-                        <img src="/template-classic.png" alt="Classic Template" />
+                    <div className={styles.templateCard} onClick={() => navigate('/editor?fileName=template2.tex')} style={{ cursor: 'pointer' }}>
+                        <img src="/resume_template1.png" alt="Classic Template" />
                         <h3>Classic</h3>
                         <p>Traditional layout with timeless appeal</p>
                     </div>
-                    <div className={styles.templateCard}>
-                        <img src="/template-executive.png" alt="Executive Template" />
+                    <div className={styles.templateCard} onClick={() => navigate('/editor?fileName=template3.tex')} style={{ cursor: 'pointer' }}>
+                        <img src="/resume_template1.png" alt="Executive Template" />
                         <h3>Executive</h3>
                         <p>Sophisticated design for senior roles</p>
                     </div>
-                    <div className={styles.templateCard}>
-                        <img src="/template-creative.png" alt="Creative Template" />
+                    <div className={styles.templateCard} onClick={() => navigate('/editor?fileName=template4.tex')} style={{ cursor: 'pointer' }}>
+                        <img src="/resume_template1.png" alt="Creative Template" />
                         <h3>Creative</h3>
                         <p>For designers and artistic professionals</p>
                     </div>
@@ -135,7 +159,7 @@ const Homepage = () => {
 
             <footer className={styles.footer}>
                 <div className={styles.footerBottom}>
-                    <p className={styles.footerText}>Made with ❤️ by Yatharth</p>
+                    <a className={styles.footerText} href='https://github.com/yatharth-2906/resume_builder' target='__blank'>Made with ❤️ by Yatharth</a>
                 </div>
             </footer>
         </div>

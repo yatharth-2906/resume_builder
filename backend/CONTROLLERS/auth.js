@@ -6,7 +6,7 @@ const { hashPassword, verifyPassword } = require('../SERVICES/encryption');
 
 async function verifyUserLogin(req, res) {
     try {
-        const { token } = req.body;
+        const token = req.headers['token']?.split(' ')[1];
 
         // Check if token is provided
         if (!token) {
@@ -49,7 +49,7 @@ async function handleUserLogin(req, res) {
         }
 
         // Generate JWT token
-        const userPayload = { user_id: user._id, user_email: user.user_email, template_folder: user.template_folder };
+        const userPayload = { user_id: user._id, user_name:user.user_name, user_email: user.user_email, template_folder: user.template_folder };
         const token = generateToken(userPayload);
 
         // If everything is fine, return success response

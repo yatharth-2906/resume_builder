@@ -1,8 +1,28 @@
+import Cookies from 'js-cookie';
 import { Editor } from "@monaco-editor/react";
 import { useState, useEffect, useRef } from 'react';
 import styles from './styles/EditorPage.module.css';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
 export default function EditorPage() {
+    const navigate = useNavigate();
+    const token = Cookies.get('token');
+    const user = JSON.parse(localStorage.getItem('user'));
+    const [searchParams] = useSearchParams();
+    const fileName = searchParams.get("fileName");
+
+    useEffect(() => {
+        function checkParams() {
+            if (!token || !user || !fileName){
+                navigate('/login');
+                return;
+            }
+        }
+
+        checkParams();
+    }, []);
+
+
     const pdfRef = useRef(null);
     const [pdfBlob, setPdfBlob] = useState(null);
     const [latexCode, setLatexCode] = useState('');
@@ -18,10 +38,9 @@ export default function EditorPage() {
                     {
                         headers: {
                             'Content-Type': 'application/json',
-                            'token': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjg1YThmZDk5OTI5ODZhOGQzYzlhNjgyIiwidXNlcl9lbWFpbCI6IjIxMTQ2MkBqdWl0c29sYW4uaW4iLCJ0ZW1wbGF0ZV9mb2xkZXIiOiI4ZjNhYTBhNjc0NDQ1M2MyOTY0MTNkMWMiLCJpYXQiOjE3NTA3NjU1MzQsImV4cCI6MTc1MTk3NTEzNH0.7UL5Cva1Ady4HWVXq0UQ4Z8d52lC3yQ1KCLHoo6NRHE'
                         },
                         method: "POST",
-                        body: JSON.stringify({ "fileName": "template1.tex" })
+                        body: JSON.stringify({ fileName, "template_folder": user.template_folder })
                     }
                 );
 
@@ -53,8 +72,8 @@ export default function EditorPage() {
                 {
                     headers: {
                         'Content-Type': 'text/plain',
-                        'templatefilename': 'template1.tex',
-                        'token': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjg1YThmZDk5OTI5ODZhOGQzYzlhNjgyIiwidXNlcl9lbWFpbCI6IjIxMTQ2MkBqdWl0c29sYW4uaW4iLCJ0ZW1wbGF0ZV9mb2xkZXIiOiI4ZjNhYTBhNjc0NDQ1M2MyOTY0MTNkMWMiLCJpYXQiOjE3NTA3NjU1MzQsImV4cCI6MTc1MTk3NTEzNH0.7UL5Cva1Ady4HWVXq0UQ4Z8d52lC3yQ1KCLHoo6NRHE'
+                        'templatefilename': fileName,
+                        'token': `Bearer ${token}`
                     },
                     method: "POST",
                     body: String(latexCode)

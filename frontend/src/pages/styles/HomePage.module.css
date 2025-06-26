@@ -13,7 +13,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 0;
+  padding: 20px;
   border-bottom: 1px solid #eaeaea;
 }
 
@@ -61,12 +61,27 @@
   background-color: #2980b9;
 }
 
+.signOutButton {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.signOutButton:hover {
+  background-color: #c0392b;
+}
+
 /* Hero Section */
 .hero {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 60px 0;
+  padding: 20px;
 }
 
 .heroContent {
@@ -81,6 +96,8 @@
 }
 
 .heroContent p {
+  text-align: justify;
+  text-justify: inter-word;
   font-size: 18px;
   margin-bottom: 30px;
   color: #7f8c8d;
@@ -126,14 +143,47 @@
 .heroImage {
   flex: 1;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
+  max-width: 50%; /* Limits width on larger screens */
+  padding: 20px;
 }
 
 .heroImage img {
-  max-width: 100%;
-  height: auto;
+  max-width: 100%; /* Ensures image never exceeds container */
+  height: auto; /* Maintains aspect ratio */
   border-radius: 8px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  object-fit: contain; /* Prevents distortion */
+  
+  /* Optional max-height constraint */
+  max-height: 500px; /* Adjust based on your needs */
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .heroImage {
+    max-width: 60%;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroImage {
+    max-width: 80%;
+    order: -1; /* Moves image above text on mobile if needed */
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 576px) {
+  .heroImage {
+    max-width: 100%;
+    padding: 10px;
+  }
+  
+  .heroImage img {
+    max-height: 400px;
+  }
 }
 
 /* Features Section */
@@ -183,6 +233,8 @@
 
 .featureCard p {
   color: #7f8c8d;
+  text-align: justify;
+  text-justify: inter-word;
 }
 
 /* Templates Section */
@@ -214,14 +266,16 @@
 
 .templateCard {
   background: white;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .templateCard:hover {
-  transform: translateY(-10px);
+  transform: scale(1.05);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  border: 1px solid #ddd;
 }
 
 .templateCard img {
@@ -304,8 +358,10 @@
   color: #bdc3c7;
 }
 
-.footerText{
-    font-size: 1.2em;
+.footerText {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2em;
 }
 
 /* Responsive Adjustments */
