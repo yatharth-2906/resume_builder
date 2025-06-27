@@ -29,7 +29,7 @@ const LoginPage = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:8000/auth/login', {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -38,16 +38,11 @@ const LoginPage = () => {
                 credentials: 'include'
             });
 
-            if (!response.ok) {
-                console.log("Login failed.");
-                return;
-            }
-
             const data = await response.json();
             if (data.status == 'error') {
                 Cookies.remove('token');
                 localStorage.removeItem("user");
-                console.log("Login failed.");
+                console.log(data.message);
                 return;
             }
 

@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 const os = require("os");
-const fs = require("fs");
+const fs = require("fs").promises;
 const path = require("path");
 const crypto = require("crypto");
 const cloudinary = require("cloudinary").v2;
@@ -17,14 +17,18 @@ async function copyLatexTemplates() {
   const localTemplatesPath = path.join(__dirname, "../Templates");
 
   try {
-    if (!fs.existsSync(localTemplatesPath)) {
-      throw new Error("Templates folder not found.");
-    }
+    await fs.access(localTemplatesPath);
 
-    const filesToUpload = fs.readdirSync(localTemplatesPath).filter(file => {
+    const files = await fs.readdir(localTemplatesPath);
+    const filesToUpload = [];
+
+    for (const file of files) {
       const fullPath = path.join(localTemplatesPath, file);
-      return fs.statSync(fullPath).isFile() && !file.startsWith(".");
-    });
+      const stats = await fs.stat(fullPath);
+      if (stats.isFile() && !file.startsWith(".")) {
+        filesToUpload.push(file);
+      }
+    }
 
     const uploadResults = [];
 
@@ -68,7 +72,7 @@ async function updateLatexFile(fileUrl, latexContent) {
   const tmpFilePath = path.join(os.tmpdir(), fileName);
   try {
     // 1. Write LaTeX to a temporary local file
-    fs.writeFileSync(tmpFilePath, latexContent.trim(), "utf8");
+    await fs.writeFile(tmpFilePath, latexContent.trim(), "utf8");
 
     // 2. Delete the existing file from Cloudinary
     await cloudinary.uploader.destroy(publicId, {
@@ -97,9 +101,57 @@ async function updateLatexFile(fileUrl, latexContent) {
       "message": err.message,
     };
   } finally {
-    fs.unlinkSync(tmpFilePath);
+    try {
+      if (tmpFilePath) {
+        await fs.access(tmpFilePath);
+        await fs.unlink(tmpFilePath);
+      }
+    } catch (cleanupErr) {
+      console.warn("Temp file cleanup failed:", cleanupErr.message);
+    }
   }
 }
+
+// async function savePDF(arrayBuffer, publicId) {
+//   const fileName = path.basename(publicId);
+//   const tmpFilePath = path.join(os.tmpdir(), fileName);
+
+//   try {
+//     const buffer = Buffer.from(arrayBuffer); // ✅ Fix here
+//     await fs.writeFile(tmpFilePath, buffer);
+
+//     const result = await cloudinary.uploader.upload(tmpFilePath, {
+//       public_id: publicId,
+//       resource_type: "raw",
+//       use_filename: true,
+//       unique_filename: false,
+//       overwrite: true,
+//       invalidate: true,
+//       type: "upload", 
+//       access_mode: "public"
+//     });
+
+//     return {
+//       success: true,
+//       url: result.secure_url,
+//       message: "PDF uploaded successfully",
+//     };
+//   } catch (err) {
+//     console.error("PDF upload failed:", err);
+//     return {
+//       success: false,
+//       message: err.message,
+//     };
+//   } finally {
+//     try {
+//       await fs.access(tmpFilePath); // Check if file exists
+//       await fs.unlink(tmpFilePath); // Delete file
+//     } catch (cleanupErr) {
+//       console.warn("Temporary PDF cleanup failed:", cleanupErr.message);
+//     }
+//   }
+// }
+
 
 module.exports = {
   copyLatexTemplates,

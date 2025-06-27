@@ -2,7 +2,6 @@ require('dotenv').config();
 const { verifyToken } = require('../SERVICES/auth');
 const { updateLatexFile } = require('../SERVICES/cloud');
 
-
 async function handleCompilation(req, res) {
     try {
         const latexCode = req.body;
@@ -37,14 +36,12 @@ async function handleCompilation(req, res) {
 
         // Make API call for LaTeX compilation
         await new Promise(resolve => setTimeout(resolve, 500)); // Delay to ensure the file is updated before compilation
-        const compileUrl = `https://latexonline.cc/compile?url=${encodeURIComponent(cloudinaryUrl)}`;
+        const compileUrl = `https://latexonline.cc/compile?url=${encodeURIComponent(cloudinaryUrl)}&t=${Date.now()}`;
         const response = await fetch(compileUrl);
 
         if (!response.ok) {
             return res.status(500).json({ "error": "LaTeX compilation failed", "message": "We are processing too many requests right now. Please try again in 2-3 minutes." });
         }
-
-        res.setHeader("Content-Type", "application/pdf");
 
         // Sending PDF in chunks(streams) as direct response
         const reader = response.body.getReader();
@@ -61,6 +58,10 @@ async function handleCompilation(req, res) {
 
         const compiledPdf = new Response(stream);
         const buffer = await compiledPdf.arrayBuffer();
+
+        // Send to browser
+        res.setHeader("Content-Type", "application/pdf");
+        res.setHeader("Cache-Control", "no-store");
         res.end(Buffer.from(buffer));
     } catch (error) {
         console.error('Error during compilation:', error);

@@ -13,7 +13,7 @@ export default function EditorPage() {
 
     useEffect(() => {
         function checkParams() {
-            if (!token || !user || !fileName){
+            if (!token || !user || !fileName) {
                 navigate('/login');
                 return;
             }
@@ -34,7 +34,7 @@ export default function EditorPage() {
         async function handleFetchCode() {
             setIsLoading(true);
             try {
-                const response = await fetch(`http://localhost:8000/file`,
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/file`,
                     {
                         headers: {
                             'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ export default function EditorPage() {
         setStatusMessage("Generating PDF from LaTeX code...");
 
         try {
-            const response = await fetch(`http://localhost:8000/compile`,
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/compile`,
                 {
                     headers: {
                         'Content-Type': 'text/plain',

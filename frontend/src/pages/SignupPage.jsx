@@ -1,33 +1,51 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './styles/LoginPage.module.css';
 
 const LoginPage = () => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+    const user = JSON.parse(localStorage.getItem("user")) || null;
+
+    useEffect(() => {
+        function checkLoginStatus() {
+            if (user)
+                navigate('/');
+        }
+
+        checkLoginStatus();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
         setLoading(true);
 
-        try {
-            // Replace with your actual authentication logic
-            await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+        const name = String(document.getElementById('user_name').value);
+        const email = String(document.getElementById('user_email').value);
+        const password = String(document.getElementById('user_password').value);
+        if (!name || !email || !password) {
+            throw new Error('Please fill in all fields');
+        }
 
-            // Mock authentication - in real app, verify credentials with backend
-            if (email === 'user@example.com' && password === 'password') {
-                localStorage.setItem('isAuthenticated', 'true');
-                navigate('/editor'); // Redirect to editor after login
-            } else {
-                throw new Error('Invalid email or password');
+        try {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/signup`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, email, password }),
+                credentials: 'include'
+            });
+
+            const data = await response.json();
+            if (data.status == 'error') {
+                console.log(data.message);
+                return;
             }
-        } catch (err) {
-            setError(err.message);
+
+            navigate('/login');
+        } catch (error) {
+            console.log(error);
         } finally {
             setLoading(false);
         }
@@ -41,16 +59,12 @@ const LoginPage = () => {
                     <p>Create your free account to unlock all resume templates</p>
                 </div>
 
-                {error && <div className={styles.errorMessage}>{error}</div>}
-
                 <form onSubmit={handleSubmit} className={styles.loginForm}>
                     <div className={styles.formGroup}>
-                        <label htmlFor="name">Name</label>
+                        <label htmlFor="user_name">Name</label>
                         <input
-                            type="name"
-                            id="name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            type="user_name"
+                            id="user_name"
                             required
                             placeholder="John Doe"
                             autoComplete="name"
@@ -59,12 +73,10 @@ const LoginPage = () => {
                     </div>
 
                     <div className={styles.formGroup}>
-                        <label htmlFor="email">Email</label>
+                        <label htmlFor="user_email">Email</label>
                         <input
-                            type="email"
-                            id="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            type="user_email"
+                            id="user_email"
                             required
                             placeholder="your@email.com"
                             autoComplete="email"
@@ -73,12 +85,10 @@ const LoginPage = () => {
                     </div>
 
                     <div className={styles.formGroup}>
-                        <label htmlFor="password">Password</label>
+                        <label htmlFor="user_password">Password</label>
                         <input
-                            type="password"
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            type="user_password"
+                            id="user_password"
                             required
                             placeholder="••••••••"
                         />
@@ -95,7 +105,7 @@ const LoginPage = () => {
                         className={styles.loginButton}
                         disabled={loading}
                     >
-                        {loading ? 'Signing in...' : 'Sign In'}
+                        {loading ? 'Signing up...' : 'Sign Up'}
                     </button>
                 </form>
 

@@ -21,7 +21,7 @@ function App() {
           return;
         }
 
-        const response = await fetch('http://localhost:8000/auth/verifylogin', {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/verifylogin`, {
           method: 'POST',
           headers: {
             "token": "Bearer " + token,

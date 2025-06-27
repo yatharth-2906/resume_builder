@@ -26,9 +26,9 @@ const Homepage = () => {
                     <h1>ResumeCraft Pro</h1>
                     <p>
                         {user ? (
-                            <>Welcome, <strong>{user.user_name}</strong>! Build Professional Resumes with LaTeX Precision</>
+                            <>Welcome, <strong>{user.user_name}</strong>! Build Professional Resumes with high ATS Score</>
                         ) : (
-                            <>Build Professional Resumes with LaTeX Precision</>
+                            <>Build Professional Resumes with high ATS Score</>
                         )}
                     </p>
 
@@ -50,8 +50,8 @@ const Homepage = () => {
                 <div className={styles.heroContent}>
                     <h2>Craft Your Perfect Resume with LaTeX Elegance</h2>
                     <p>
-                        Build clean, ATS-friendly resumes using our powerful yet easy-to-use LaTeX template builder.
-                        Designed for professionals, students, and job seekers alike, our tool ensures your resume
+                        Build clean, ATS friendly resumes using our powerful yet easy to use Resume builder.
+                        Designed for professionals, students and job seekers alike, our tool ensures your resume
                         looks polished and well formatted.
                     </p>
                     <div className={styles.heroButtons}>
@@ -105,22 +105,33 @@ const Homepage = () => {
                         <p>Clean lines and contemporary design</p>
                     </div>
                     <div className={styles.templateCard} onClick={() => navigate('/editor?fileName=template2.tex')} style={{ cursor: 'pointer' }}>
-                        <img src="/resume_template1.png" alt="Classic Template" />
+                        <img src="/resume_template2.png" alt="Classic Template" />
                         <h3>Classic</h3>
                         <p>Traditional layout with timeless appeal</p>
                     </div>
                     <div className={styles.templateCard} onClick={() => navigate('/editor?fileName=template3.tex')} style={{ cursor: 'pointer' }}>
-                        <img src="/resume_template1.png" alt="Executive Template" />
+                        <img src="/resume_template3.png" alt="Executive Template" />
                         <h3>Executive</h3>
                         <p>Sophisticated design for senior roles</p>
                     </div>
                     <div className={styles.templateCard} onClick={() => navigate('/editor?fileName=template4.tex')} style={{ cursor: 'pointer' }}>
-                        <img src="/resume_template1.png" alt="Creative Template" />
+                        <img src="/resume_template4.png" alt="Creative Template" />
                         <h3>Creative</h3>
                         <p>For designers and artistic professionals</p>
                     </div>
+                    <div className={styles.templateCard} onClick={() => navigate('/editor?fileName=template5.tex')} style={{ cursor: 'pointer' }}>
+                        <img src="/resume_template5.png" alt="Minimalist Template" />
+                        <h3>Minimalist</h3>
+                        <p>Focused layout with clean whitespace</p>
+                    </div>
+                    <div className={styles.templateCard} onClick={() => navigate('/editor?fileName=template6.tex')} style={{ cursor: 'pointer' }}>
+                        <img src="/resume_template6.png" alt="Professional Template" />
+                        <h3>Professional</h3>
+                        <p>Perfect balance of structure and readability</p>
+                    </div>
                 </div>
             </section>
+
 
             {/* How It Works Section */}
             <section id="how-it-works" className={styles.howItWorks}>
@@ -131,7 +142,7 @@ const Homepage = () => {
                         <div className={styles.stepContent}>
                             <h3>Select a Template</h3>
                             <p>
-                                Choose from our collection of ATS-friendly LaTeX resume templates.
+                                Choose from our collection of ATS friendly Resume Templates.
                             </p>
                         </div>
                     </div>
@@ -140,7 +151,7 @@ const Homepage = () => {
                         <div className={styles.stepContent}>
                             <h3>Fill in Your Details</h3>
                             <p>
-                                Use our intuitive form to enter your work experience, education,
+                                Use our intuitive platform to enter your work experience, education,
                                 and skills.
                             </p>
                         </div>
@@ -150,7 +161,7 @@ const Homepage = () => {
                         <div className={styles.stepContent}>
                             <h3>Download or Share</h3>
                             <p>
-                                Download the PDF or share via a unique URL with recruiters.
+                                Download the PDF of your resume or share it using a unique URL with recruiters.
                             </p>
                         </div>
                     </div>
