@@ -14,7 +14,7 @@ const app = express();
 const port = Number(process.env.PORT) || 3000;
 
 // CORS options
-const allowedOrigins = ['http://localhost:5173'];
+const allowedOrigins = ['https://resume-craft-pro.vercel.app/', 'http://localhost:5173'];
 const corsOptions = {
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
