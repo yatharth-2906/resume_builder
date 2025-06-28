@@ -14,14 +14,9 @@ const app = express();
 const port = Number(process.env.PORT) || 3000;
 
 // CORS options
-const allowedOrigins = ['https://resume-craft-pro.vercel.app/', 'http://localhost:5173'];
 const corsOptions = {
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
+    callback(null, true); // allow all origins
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
@@ -31,6 +26,7 @@ const corsOptions = {
 app.use(express.json());
 app.use(express.text());
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 
 // Routers
