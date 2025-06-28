@@ -6,6 +6,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 
 export default function EditorPage() {
     const navigate = useNavigate();
+    
     const token = Cookies.get('token');
     const user = JSON.parse(localStorage.getItem('user'));
     const [searchParams] = useSearchParams();

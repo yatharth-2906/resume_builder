@@ -1,7 +1,7 @@
 import Scroll from './Scroll';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
-import styles from './styles/Homepage.module.css';
+import styles from './styles/HomePage.module.css';
 
 const Homepage = () => {
     const navigate = useNavigate();
