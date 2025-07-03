@@ -40,14 +40,18 @@ async function handleGetResumeFile(req, res) {
         }
 
         // Check for file existance 
+        let versionFile = "";
         const resumeFile = await Version.findOne({ template_folder }) || null;
-        console.log('Resume File:', resumeFile);
-        if (!resumeFile || !resumeFile[fileName]) {
+            
+        if (!resumeFile) {
             return res.status(404).json({ "status": "error", "message": 'File not found in the database' });
         }
 
+        if(resumeFile[fileName])
+            versionFile = `-${resumeFile[fileName]}`;
+
         // Fetch the file from Cloud Storage 
-        const cloudinaryUrl = `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/raw/upload/resume-templates/${template_folder}/${fileName}-${resumeFile[fileName]}.pdf`;
+        const cloudinaryUrl = `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/raw/upload/resume-templates/${template_folder}/${fileName}${versionFile}.pdf`;
         const response = await fetch(cloudinaryUrl);
 
         if (!response.ok) {

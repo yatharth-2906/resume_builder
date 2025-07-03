@@ -135,6 +135,13 @@ async function uploadPDF(buffer, userFolder, templateFileName) {
         type: 'upload',
         invalidate: true
       });
+    } else if (olderVersion) {
+      const oldPublicId = `resume-templates/${userFolder}/resume${resumeNumber}.pdf`;
+      await cloudinary.uploader.destroy(oldPublicId, {
+        resource_type: 'raw',
+        type: 'upload',
+        invalidate: true
+      });
     }
 
     // Upload to Cloudinary

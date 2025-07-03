@@ -73,7 +73,6 @@ const LoginPage = () => {
                             required
                             placeholder="your@email.com"
                             autoComplete="email"
-                            className={styles.inputField}
                         />
                     </div>
 
@@ -84,7 +83,6 @@ const LoginPage = () => {
                             id="user_password"
                             required
                             placeholder="••••••••"
-                            className={styles.inputField}
                         />
                     </div>
 

@@ -1,8 +1,10 @@
 import './App.css';
 import Cookies from 'js-cookie';
 import HomePage from './pages/HomePage';
+import FilePage from './pages/FilePage';
 import LoginPage from './pages/LoginPage';
-import SignupPage from './pages/SignupPage'
+import HomeLoading from './pages/HomeLoading';
+import SignupPage from './pages/SignupPage';
 import EditorPage from './pages/EditorPage';
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -16,7 +18,7 @@ function App() {
       try {
         const token = Cookies.get('token');
 
-        if (!token){
+        if (!token) {
           localStorage.removeItem("user");
           return;
         }
@@ -56,17 +58,17 @@ function App() {
 
   return (
     <Router>
-      {loading ? (
-        <div style={{ textAlign: 'center', marginTop: '20%' }}>Loading...</div>
-      ) : (
-        <Routes>
-          <Route path="*" element={<HomePage />} />
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/editor" element={<EditorPage />} />
-        </Routes>
-      )}
+      {loading ? (<HomeLoading />) :
+        (
+          <Routes>
+            <Route path="*" element={<HomePage />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/editor/:fileName" element={<EditorPage />} />
+            <Route path="file/:folder/:fileName" element={<FilePage />} />
+          </Routes>
+        )}
     </Router>
   );
 }

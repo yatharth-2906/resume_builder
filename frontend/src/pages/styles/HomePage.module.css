@@ -99,6 +99,7 @@
   text-align: justify;
   text-justify: inter-word;
   font-size: 18px;
+  padding: 0 10px;
   margin-bottom: 30px;
   color: #7f8c8d;
 }
@@ -188,7 +189,7 @@
 
 /* Features Section */
 .features {
-  padding: 80px 0;
+  padding: 80px 10px;
   background-color: #f8f9fa;
 }
 
@@ -239,7 +240,7 @@
 
 /* Templates Section */
 .templates {
-  padding: 80px 0;
+  padding: 80px 10px;
 }
 
 .templates h2 {
@@ -314,7 +315,7 @@
 
 /* How It Works Section */
 .howItWorks {
-  padding: 80px 0;
+  padding: 80px 10px;
   background-color: #f8f9fa;
 }
 

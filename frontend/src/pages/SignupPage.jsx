@@ -68,7 +68,6 @@ const LoginPage = () => {
                             required
                             placeholder="John Doe"
                             autoComplete="name"
-                            className={styles.inputField}
                         />
                     </div>
 
@@ -80,7 +79,6 @@ const LoginPage = () => {
                             required
                             placeholder="your@email.com"
                             autoComplete="email"
-                            className={styles.inputField}
                         />
                     </div>
 

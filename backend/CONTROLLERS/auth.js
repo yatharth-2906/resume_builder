@@ -91,6 +91,9 @@ async function handleUserSignup(req, res) {
             template_folder: copyResult.folderName,
         });
 
+        // Create a new entry in the Version collection 
+        await Version.create({template_folder: copyResult.folderName});
+
         // If everything is fine, return success response
         return res.status(200).json({"status": "success", "message": 'User created successfully.'});
 

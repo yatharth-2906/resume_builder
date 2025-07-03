@@ -99,32 +99,32 @@ const Homepage = () => {
                     Choose from our collection of professionally designed templates
                 </p>
                 <div className={styles.templateGallery}>
-                    <div className={styles.templateCard} onClick={() => navigate('/editor?fileName=template1.tex')} style={{ cursor: 'pointer' }}>
+                    <div className={styles.templateCard} onClick={() => navigate('/editor/template1.tex')} style={{ cursor: 'pointer' }}>
                         <img src="/resume_template1.png" alt="Modern Template" />
                         <h3>Modern</h3>
                         <p>Clean lines and contemporary design</p>
                     </div>
-                    <div className={styles.templateCard} onClick={() => navigate('/editor?fileName=template2.tex')} style={{ cursor: 'pointer' }}>
+                    <div className={styles.templateCard} onClick={() => navigate('/editor/template2.tex')} style={{ cursor: 'pointer' }}>
                         <img src="/resume_template2.png" alt="Classic Template" />
                         <h3>Classic</h3>
                         <p>Traditional layout with timeless appeal</p>
                     </div>
-                    <div className={styles.templateCard} onClick={() => navigate('/editor?fileName=template3.tex')} style={{ cursor: 'pointer' }}>
+                    <div className={styles.templateCard} onClick={() => navigate('/editor/template3.tex')} style={{ cursor: 'pointer' }}>
                         <img src="/resume_template3.png" alt="Executive Template" />
                         <h3>Executive</h3>
                         <p>Sophisticated design for senior roles</p>
                     </div>
-                    <div className={styles.templateCard} onClick={() => navigate('/editor?fileName=template4.tex')} style={{ cursor: 'pointer' }}>
+                    <div className={styles.templateCard} onClick={() => navigate('/editor/template4.tex')} style={{ cursor: 'pointer' }}>
                         <img src="/resume_template4.png" alt="Creative Template" />
                         <h3>Creative</h3>
                         <p>For designers and artistic professionals</p>
                     </div>
-                    <div className={styles.templateCard} onClick={() => navigate('/editor?fileName=template5.tex')} style={{ cursor: 'pointer' }}>
+                    <div className={styles.templateCard} onClick={() => navigate('/editor/template5.tex')} style={{ cursor: 'pointer' }}>
                         <img src="/resume_template5.png" alt="Minimalist Template" />
                         <h3>Minimalist</h3>
                         <p>Focused layout with clean whitespace</p>
                     </div>
-                    <div className={styles.templateCard} onClick={() => navigate('/editor?fileName=template6.tex')} style={{ cursor: 'pointer' }}>
+                    <div className={styles.templateCard} onClick={() => navigate('/editor/template6.tex')} style={{ cursor: 'pointer' }}>
                         <img src="/resume_template6.png" alt="Professional Template" />
                         <h3>Professional</h3>
                         <p>Perfect balance of structure and readability</p>
