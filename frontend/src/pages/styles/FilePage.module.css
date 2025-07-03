@@ -4,6 +4,21 @@
   justify-content: center;
   height: 100vh;
   font-size: 2em;
-  font-weight: 500;
+  font-weight: 900;
   text-align: center;
+}
+
+.downloadLink {
+  display: none;
+  margin: 1rem auto;
+  text-align: center;
+  font-size: 1rem;
+  color: #007bff;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .downloadLink {
+    display: block;
+  }
 }

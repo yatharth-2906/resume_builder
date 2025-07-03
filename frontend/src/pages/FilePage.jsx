@@ -10,9 +10,6 @@ function FilePage() {
     const [fileContent, setFileContent] = useState(null);
 
     useEffect(() => {
-        if (fileContent)
-            URL.revokeObjectURL(fileContent);
-
         async function fetchFileContent() {
             setIsLoading(true);
             try {
@@ -42,20 +39,33 @@ function FilePage() {
         }
 
         fetchFileContent();
+
+        return () => {
+            if (fileContent) {
+                URL.revokeObjectURL(fileContent);
+            }
+        };
     }, []);
 
     return (
-        <div style={{ width: '100vw', height: '100vh' }}>
+        <div style={{ width: '100vw', height: '100dvh', overflow: 'hidden' }}>
             {isLoading ? (
                 <HomeLoading />
             ) : (
                 <div>
                     {fileContent ? (
-                        <iframe
-                            src={fileContent}
-                            title="Resume PDF"
-                            style={{ width: '100%', height: '100vh', border: 'none' }}
-                        ></iframe>
+                        <>
+                            <iframe
+                                src={fileContent}
+                                title="Resume PDF"
+                                style={{ width: '100%', height: '100dvh', border: 'none' }}
+                            ></iframe>
+                            <div className={styles.mobileFallback}>
+                                <a href={fileContent} download className={styles.downloadLink}>
+                                    Download PDF
+                                </a>
+                            </div>
+                        </>
                     ) : (
                         <p className={styles.errorMessage}>Error loading file content.</p>
                     )}
