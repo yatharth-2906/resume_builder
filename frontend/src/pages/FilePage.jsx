@@ -5,9 +5,21 @@ import styles from './styles/FilePage.module.css';
 
 function FilePage() {
     const { folder, fileName } = useParams();
-
     const [isLoading, setIsLoading] = useState(true);
     const [fileContent, setFileContent] = useState(null);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        // Check if mobile device
+        const checkIfMobile = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+
+        checkIfMobile();
+        window.addEventListener('resize', checkIfMobile);
+
+        return () => window.removeEventListener('resize', checkIfMobile);
+    }, []);
 
     useEffect(() => {
         async function fetchFileContent() {
@@ -45,26 +57,36 @@ function FilePage() {
                 URL.revokeObjectURL(fileContent);
             }
         };
-    }, []);
+    }, [folder, fileName]);
 
     return (
-        <div style={{ width: '100vw', height: '100dvh', overflow: 'hidden' }}>
+        <div className={styles.container}>
             {isLoading ? (
                 <HomeLoading />
             ) : (
-                <div>
+                <div className={styles.content}>
                     {fileContent ? (
                         <>
-                            <iframe
-                                src={fileContent}
-                                title="Resume PDF"
-                                style={{ width: '100%', height: '100dvh', border: 'none' }}
-                            ></iframe>
-                            <div className={styles.mobileFallback}>
-                                <a href={fileContent} download className={styles.downloadLink}>
-                                    Download PDF
-                                </a>
-                            </div>
+                            {!isMobile ? (
+                                <iframe
+                                    src={fileContent}
+                                    title="Resume PDF"
+                                    className={styles.pdfViewer}
+                                ></iframe>
+                            ) : (
+                                <div className={styles.mobileView}>
+                                    <p className={styles.mobileMessage}>
+                                        For best experience on mobile, please download the PDF:
+                                    </p>
+                                    <a
+                                        href={fileContent}
+                                        download={`resume.pdf`}
+                                        className={styles.downloadLink}
+                                    >
+                                        Download PDF
+                                    </a>
+                                </div>
+                            )}
                         </>
                     ) : (
                         <p className={styles.errorMessage}>Error loading file content.</p>
