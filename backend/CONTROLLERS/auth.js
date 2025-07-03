@@ -1,5 +1,6 @@
 require('dotenv').config();
 const User = require('../MODELS/user');
+const Version = require('../MODELS/version');
 const { copyLatexTemplates } = require('../SERVICES/cloud');
 const { generateToken, verifyToken } = require('../SERVICES/auth');
 const { hashPassword, verifyPassword } = require('../SERVICES/encryption');
