@@ -4,7 +4,10 @@ const os = require("os");
 const fs = require("fs").promises;
 const path = require("path");
 const crypto = require("crypto");
+const streamifier = require('streamifier');
 const cloudinary = require("cloudinary").v2;
+
+const Version = require('../MODELS/version');
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -68,8 +71,10 @@ async function updateLatexFile(fileUrl, latexContent) {
   if (!pathAfterUpload) throw new Error("Invalid Cloudinary URL");
 
   const publicId = pathAfterUpload.replace(/\.\w+$/, "");
-  const fileName = path.basename(publicId) + ".tex";
+  const fileName = `${path.basename(publicId)}-${Date.now()}.tex`;
+  /* const fileName = path.basename(publicId) + ".tex"; */
   const tmpFilePath = path.join(os.tmpdir(), fileName);
+
   try {
     // 1. Write LaTeX to a temporary local file
     await fs.writeFile(tmpFilePath, latexContent.trim(), "utf8");
@@ -112,48 +117,69 @@ async function updateLatexFile(fileUrl, latexContent) {
   }
 }
 
-// async function savePDF(arrayBuffer, publicId) {
-//   const fileName = path.basename(publicId);
-//   const tmpFilePath = path.join(os.tmpdir(), fileName);
+async function uploadPDF(buffer, userFolder, templateFileName) {
+  const version = Date.now();
+  const resumeNumber = templateFileName.replace('template', '').replace('.tex', '');
+  const publicId = `resume${resumeNumber}-${version}`;
 
-//   try {
-//     const buffer = Buffer.from(arrayBuffer); // ✅ Fix here
-//     await fs.writeFile(tmpFilePath, buffer);
+  const key = `resume${resumeNumber}`;
 
-//     const result = await cloudinary.uploader.upload(tmpFilePath, {
-//       public_id: publicId,
-//       resource_type: "raw",
-//       use_filename: true,
-//       unique_filename: false,
-//       overwrite: true,
-//       invalidate: true,
-//       type: "upload", 
-//       access_mode: "public"
-//     });
+  try {
+    // Delete Older Version 
+    const olderVersion = await Version.findOne({ template_folder: userFolder }) || null;
+    if (olderVersion && olderVersion[key]) {
+      const oldVersion = olderVersion[key];
+      const oldPublicId = `resume-templates/${userFolder}/resume${resumeNumber}-${oldVersion}.pdf`;
+      await cloudinary.uploader.destroy(oldPublicId, {
+        resource_type: 'raw',
+        type: 'upload',
+        invalidate: true
+      });
+    }
 
-//     return {
-//       success: true,
-//       url: result.secure_url,
-//       message: "PDF uploaded successfully",
-//     };
-//   } catch (err) {
-//     console.error("PDF upload failed:", err);
-//     return {
-//       success: false,
-//       message: err.message,
-//     };
-//   } finally {
-//     try {
-//       await fs.access(tmpFilePath); // Check if file exists
-//       await fs.unlink(tmpFilePath); // Delete file
-//     } catch (cleanupErr) {
-//       console.warn("Temporary PDF cleanup failed:", cleanupErr.message);
-//     }
-//   }
-// }
+    // Upload to Cloudinary
+    const uploadResult = await new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          folder: `resume-templates/${userFolder}`,
+          resource_type: "raw",
+          public_id: publicId,
+          use_filename: true,
+          unique_filename: false,
+          format: 'pdf',
+          overwrite: true,
+          invalidate: true,
+        },
+        (error, result) => {
+          if (error) return reject(error);
+          resolve(result);
+        }
+      );
+      streamifier.createReadStream(buffer).pipe(uploadStream);
+    });
 
+    // Update version in the database
+    await Version.findOneAndUpdate(
+      { template_folder: userFolder },
+      { $set: { [key]: version } },
+      { upsert: true, new: true }
+    );
+
+    return {
+      success: true,
+      message: "PDF Updated Successfully.",
+    };
+  } catch (err) {
+    console.error("Upload and version tracking failed:", err);
+    return {
+      success: false,
+      error: err.message
+    };
+  }
+}
 
 module.exports = {
   copyLatexTemplates,
   updateLatexFile,
+  uploadPDF
 };

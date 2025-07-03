@@ -36,6 +36,6 @@ app.use('/file', fileRouter);
 
 // Starting the server and DB Connection 
 connectToDatabase();
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+app.listen(port, (req, res) => {
+  console.log(`Server is running on PORT:${port}`);
 });

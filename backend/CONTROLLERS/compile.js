@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { verifyToken } = require('../SERVICES/auth');
-const { updateLatexFile } = require('../SERVICES/cloud');
+const { updateLatexFile, uploadPDF } = require('../SERVICES/cloud');
 
 async function handleCompilation(req, res) {
     try {
@@ -35,7 +35,6 @@ async function handleCompilation(req, res) {
         }
 
         // Make API call for LaTeX compilation
-        await new Promise(resolve => setTimeout(resolve, 500)); // Delay to ensure the file is updated before compilation
         const compileUrl = `https://latexonline.cc/compile?url=${encodeURIComponent(cloudinaryUrl)}&t=${Date.now()}`;
         const response = await fetch(compileUrl);
 
@@ -58,6 +57,12 @@ async function handleCompilation(req, res) {
 
         const compiledPdf = new Response(stream);
         const buffer = await compiledPdf.arrayBuffer();
+
+        try {
+            await uploadPDF(Buffer.from(buffer), userPayload.template_folder, templateFileName);
+        } catch (err) {
+            console.error("Cloudinary PDF Upload Failed:", err);
+        }
 
         // Send to browser
         res.setHeader("Content-Type", "application/pdf");
