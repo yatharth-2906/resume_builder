@@ -23,7 +23,7 @@ const Homepage = () => {
             {/* Header Section */}
             <header className={styles.header}>
                 <div className={styles.logo}>
-                    <h1>ResumeCraft Pro</h1>
+                    <h1>Resume Builder</h1>
                     <p>
                         {user ? (
                             <>Welcome, <strong>{user.user_name}</strong>! Build Professional Resumes with high ATS Score</>
@@ -84,7 +84,7 @@ const Homepage = () => {
                     </div>
                     <div className={styles.featureCard}>
                         <div className={styles.featureIcon}>🎨</div>
-                        <h3>Customizable Designs</h3>
+                        <h3>Customizable Templates</h3>
                         <p>
                             Choose from a variety of professionally designed resume templates tailored for different roles and industries. You can easily select a template that fits your profile.
                         </p>
@@ -149,11 +149,11 @@ const Homepage = () => {
                     <div className={styles.step}>
                         <div className={styles.stepNumber}>2</div>
                         <div className={styles.stepContent}>
-                            <h3>Fill in Your Details</h3>
+                            <h3>Edit Your Template</h3>
                             <p>
-                                Use our intuitive platform to enter your work experience, education,
-                                and skills.
+                                Use our intuitive platform to customize the resume layout to match your style.
                             </p>
+
                         </div>
                     </div>
                     <div className={styles.step}>

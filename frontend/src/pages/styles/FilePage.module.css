@@ -4,8 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  background-color: #f1f1f1;
-  padding: 16px;
+  background-color: black;
   box-sizing: border-box;
 }
 
@@ -17,6 +16,7 @@
 }
 
 .pdfViewer {
+  width: 100%;
   border: none;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
   background-color: white;
@@ -32,14 +32,15 @@
 }
 
 .fallbackText {
+  height: 5vh;
   margin-top: 16px;
   font-size: 0.9rem;
-  color: #666;
+  color: white;
   text-align: center;
 }
 
 .downloadLink {
-  color: #1976d2;
+  color: #81b6ec;
   text-decoration: underline;
   margin: 0 4px;
 }
