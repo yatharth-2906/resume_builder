@@ -55,7 +55,7 @@ const LoginPage = () => {
         <div className={styles.loginContainer}>
             <div className={styles.loginCard}>
                 <div className={styles.loginHeader}>
-                    <h2>Welcome to ResumeCraft Pro</h2>
+                    <h2>Welcome to Resume Builder</h2>
                     <p>Create your free account to unlock all resume templates</p>
                 </div>
 
