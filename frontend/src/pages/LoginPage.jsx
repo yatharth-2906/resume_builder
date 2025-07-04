@@ -19,9 +19,9 @@ const LoginPage = () => {
     }, []);
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); 
         setLoading(true);
-        
+
         const email = String(document.getElementById('user_email').value);
         const password = String(document.getElementById('user_password').value);
         if (!email || !password) {
@@ -38,7 +38,11 @@ const LoginPage = () => {
                 credentials: 'include'
             });
 
+            if (!response.ok){ 
+                throw new Error('Login request failed');
+            }
             const data = await response.json();
+
             if (data.status == 'error') {
                 Cookies.remove('token');
                 localStorage.removeItem("user");
@@ -51,6 +55,7 @@ const LoginPage = () => {
             navigate('/');
         } catch (error) {
             console.log(error);
+            alert(error.message);
         } finally {
             setLoading(false);
         }
@@ -68,7 +73,7 @@ const LoginPage = () => {
                     <div className={styles.formGroup}>
                         <label htmlFor="user_email">Email</label>
                         <input
-                            type="user_email"
+                            type="email"
                             id="user_email"
                             required
                             placeholder="your@email.com"
@@ -79,7 +84,7 @@ const LoginPage = () => {
                     <div className={styles.formGroup}>
                         <label htmlFor="user_password">Password</label>
                         <input
-                            type="user_password"
+                            type="password"
                             id="user_password"
                             required
                             placeholder="••••••••"

@@ -1,5 +1,5 @@
 const express = require('express');
-const { handleGetFile, handleGetResumeFile } = require('../CONTROLLERS/file');
+const { handleGetFile, handleGetResume, handleGetResumeFile } = require('../CONTROLLERS/file');
 
 const fileRouter = express.Router();
 
@@ -8,5 +8,8 @@ fileRouter.route('/')
 
 fileRouter.route('/resume')
 .post(handleGetResumeFile);
+
+fileRouter.route('/resumeurl')
+.post(handleGetResume);
 
 module.exports = fileRouter;

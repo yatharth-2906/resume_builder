@@ -1,71 +1,45 @@
-.container {
+.pdfWrapper {
   width: 100vw;
-  height: 100dvh;
-  overflow: hidden;
-  position: relative;
-}
-
-.content {
-  width: 100%;
-  height: 100%;
-}
-
-.pdfViewer {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-.errorMessage {
+  min-height: 100vh;
   display: flex;
-  align-items: center;
   justify-content: center;
-  height: 100vh;
-  font-size: 1.5em;
-  font-weight: 600;
-  text-align: center;
-  padding: 1rem;
+  align-items: flex-start;
+  background-color: #f1f1f1;
+  padding: 16px;
+  box-sizing: border-box;
 }
 
-.mobileView {
+.pdfContainer {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+}
+
+.pdfViewer {
+  border: none;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  background-color: white;
+}
+
+.loader {
+  width: 100vw;
   height: 100vh;
-  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+.fallbackText {
+  margin-top: 16px;
+  font-size: 0.9rem;
+  color: #666;
   text-align: center;
 }
 
-.mobileMessage {
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
-  color: #555;
-}
-
 .downloadLink {
-  display: inline-block;
-  padding: 1rem 2rem;
-  background-color: #007bff;
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 1.2rem;
-  transition: background-color 0.3s;
-}
-
-.downloadLink:hover {
-  background-color: #0056b3;
-}
-
-@media (min-width: 769px) {
-  .mobileView {
-    display: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .pdfViewer {
-    display: none;
-  }
+  color: #1976d2;
+  text-decoration: underline;
+  margin: 0 4px;
 }
